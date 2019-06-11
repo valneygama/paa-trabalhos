@@ -6,11 +6,34 @@ class Quicksort {
     // Variavel global de trocas para facilitar a contagem apenas.
     static int trocas = 0;
 
-    // Chama os Testes para cada Array 
     public static void main(String[] args) {
+        String exec = "0";
+        int size = 1000;
+        if (args.length>=0) {
+            exec = args[0];
+            size = Integer.parseInt(args[1]);
+        }
+        int original[] = generateArray(size);
+        switch (exec) {
+            case "1": // HOARE
+                execucao(original, 1);
+                break;
+            case "2": // LOMUTO
+                execucao(original, 2);
+                break;
+            default:
+                execucaoParaArray(size);
+                execucaoParaSorted(size);
+                execucaoParaZeros(size);      
+        }
+    }
+
+    // Chama os Testes para cada Array 
+    public static void main2(String[] args) {
         System.out.println("Testes de Partição Quicksort");
         System.out.println("----------------------------");
-        System.out.println("TIPO\tTAMANHO\tHOARE-TROAS\tHOARE-TEMPO\tLOMUTO-TROCAS\tLOMUTO-TEMPO");
+        //System.out.println("TIPO\tTAMANHO\tHOARE-TROAS\tHOARE-TEMPO\tLOMUTO-TROCAS\tLOMUTO-TEMPO");
+        System.out.println("TIPO\tTAMANHO\tLOMUTO-TROCAS\tLOMUTO-TEMPO\tHOARE-TROCAS\tHOARE-TEMPO");
         // array de valores aleatorios
         execucaoParaArray(100);
         execucaoParaArray(500);
@@ -58,46 +81,49 @@ class Quicksort {
     static void execucaoParaArray(int size) {
         System.out.print("ALEATORIOS\t"+size);
         int[] arr = generateArray(size);
-        execucao(arr);
+        execucao(arr, 0);
     }
     // Executa para zeros
     static void execucaoParaZeros(int size) {
         System.out.print("ZEROS\t"+size);
         int[] arr = generateArray(size);
-        execucao(arr);
+        execucao(arr, 0);
     }
     // Executa para Ordenados
     static void execucaoParaSorted(int size) {
         System.out.print("ORDENADO\t"+size);
         int[] arr = generateSorted(size);
-        execucao(arr);
+        execucao(arr, 0);
     }
 
     // Baseado no Array de entrada, chama a execução e caclula os tempos 
     // e trocas (variavel global) de cada quicksort.
-    static void execucao(int[] original) {
+    static void execucao(int[] original, int type) {
         double tempo;
         int[] listaHoare = Arrays.copyOf(original, original.length);
         int[] listaLomuto = Arrays.copyOf(original, original.length);
-        
+        String t = "";
         trocas = 0;
-        
-        //("HOARE");
-        tempo = System.nanoTime();
-        quickSortHoare(listaHoare, 0, listaHoare.length-1);
-        tempo = (System.nanoTime() - tempo)/100000;
-        String t = tempo + "";
-        t = t.replace(".",",");
-        System.out.print("\t"+trocas + "\t" + t);
 
-        trocas = 0;
-        //("LOMUTO");
-        tempo = System.nanoTime();
-        listaLomuto = quickSortLomuto(listaLomuto, 0, listaLomuto.length-1);
-        tempo = (System.nanoTime() - tempo)/100000;
-        t = tempo + "";
-        t = t.replace(".",",");
-        System.out.print("\t"+trocas + "\t" + t);
+        if (type==0 || type==1) {
+            //("LOMUTO");
+            tempo = System.nanoTime();
+            listaLomuto = quickSortLomuto(listaLomuto, 0, listaLomuto.length-1);
+            tempo = (System.nanoTime() - tempo)/100000;
+            t = tempo + "";
+            t = t.replace(".",",");
+            System.out.print("\tLOMUTO\t"+trocas + "\t" + t);
+        }
+        if (type==0 || type==2) {
+            trocas = 0;        
+            //("HOARE");
+            tempo = System.nanoTime();
+            quickSortHoare(listaHoare, 0, listaHoare.length-1);
+            tempo = (System.nanoTime() - tempo)/100000;
+            t = tempo + "";
+            t = t.replace(".",",");
+            System.out.print("\tHOARE\t"+trocas + "\t" + t);
+        }
         System.out.println();
     }
 
