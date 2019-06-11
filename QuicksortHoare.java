@@ -1,5 +1,6 @@
 
-class QuicksortHoare {
+
+public class QuicksortHoare {
 
     static void quickSort(int[] lista, int startIndex, int endIndex) {
         if (startIndex < endIndex) {
@@ -9,7 +10,7 @@ class QuicksortHoare {
         }
     }
 
-    static int partition(int []arr, int low, int high) { 
+    private static int partition(int []arr, int low, int high) { 
         int pivot = arr[low]; 
         int i = low - 1, j = high + 1; 
         while (true) {

@@ -9,7 +9,7 @@ class QuicksortLomuto {
         return lista;
     }
     
-    static int partition(int[] arr, int low, int right) {
+    private static int partition(int[] arr, int low, int right) {
         int pivot = arr[right];
         int i = low;
         for(int j=low; j < right; j++) {
