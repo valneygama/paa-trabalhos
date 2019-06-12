@@ -14,12 +14,12 @@ public class QuicksortHoare {
         int pivot = arr[low]; 
         int i = low - 1, j = high + 1; 
         while (true) {
-            do { i++; } while (arr[i] < pivot); // Find leftmost element greater than or equal to pivot 
-            do { j--; } while (arr[j] > pivot); // Find rightmost element smaller than or equal to pivot 
-            if (i >= j) return j;               // If two pointers met. 
+            do { i++; } while (arr[i] < pivot); 
+            do { j--; } while (arr[j] > pivot); 
+            if (i >= j) return j;               
             int aux = arr[i];
             arr[i] = arr[j];
-            arr[j] = aux;                    // Senao, troca i com j em suas posicoes
+            arr[j] = aux;
         } 
     }
     
