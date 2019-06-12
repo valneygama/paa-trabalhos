@@ -6,7 +6,7 @@ class Quicksort {
     // Variavel global de trocas para facilitar a contagem apenas.
     static int trocas = 0;
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         String exec = "0";
         int size = 1000;
         if (args.length>=0) {
@@ -22,18 +22,15 @@ class Quicksort {
                 execucao(original, 2);
                 break;
             default:
-                execucaoParaArray(size);
-                execucaoParaSorted(size);
-                execucaoParaZeros(size);      
+                execucaoParaArray(size);    
         }
     }
 
     // Chama os Testes para cada Array 
-    public static void main2(String[] args) {
-        System.out.println("Testes de Partição Quicksort");
-        System.out.println("----------------------------");
-        //System.out.println("TIPO\tTAMANHO\tHOARE-TROAS\tHOARE-TEMPO\tLOMUTO-TROCAS\tLOMUTO-TEMPO");
-        System.out.println("TIPO\tTAMANHO\tLOMUTO-TROCAS\tLOMUTO-TEMPO\tHOARE-TROCAS\tHOARE-TEMPO");
+    public static void main(String[] args) {
+        System.out.println("Testes de Partição Quicksort\tExporte CSV");
+        System.out.println("----------------------------\t-----------");
+        System.out.println("TIPO\tTAMANHO\tALGO1\tTROCAS\tTEMPO\tALGO2\tTROCAS\tTEMPO");
         // array de valores aleatorios
         execucaoParaArray(100);
         execucaoParaArray(500);
@@ -44,12 +41,12 @@ class Quicksort {
         execucaoParaArray(100000);
         execucaoParaArray(150000);
         execucaoParaArray(200000);
-        // array ja ordenado
-        execucaoParaSorted(1000);
-        execucaoParaSorted(5000);
-        // array de zeros
-        execucaoParaZeros(1000);
-        execucaoParaZeros(5000);
+        //// array ja ordenado
+        //execucaoParaSorted(1000);
+        //execucaoParaSorted(5000);
+        //// array de zeros
+        //execucaoParaZeros(1000);
+        //execucaoParaZeros(5000);
     }
 
     /// Geradores de Arrays: Aleatórios, Ordenados e de Zeros
@@ -81,7 +78,9 @@ class Quicksort {
     static void execucaoParaArray(int size) {
         System.out.print("ALEATORIOS\t"+size);
         int[] arr = generateArray(size);
-        execucao(arr, 0);
+        try {
+            execucao(arr, 0);
+        } catch (Exception ex) {}
     }
     // Executa para zeros
     static void execucaoParaZeros(int size) {
@@ -98,7 +97,7 @@ class Quicksort {
 
     // Baseado no Array de entrada, chama a execução e caclula os tempos 
     // e trocas (variavel global) de cada quicksort.
-    static void execucao(int[] original, int type) {
+    static void execucao(int[] original, int type) throws Exception {
         double tempo;
         int[] listaHoare = Arrays.copyOf(original, original.length);
         int[] listaLomuto = Arrays.copyOf(original, original.length);
@@ -106,15 +105,6 @@ class Quicksort {
         trocas = 0;
 
         if (type==0 || type==1) {
-            //("LOMUTO");
-            tempo = System.nanoTime();
-            listaLomuto = quickSortLomuto(listaLomuto, 0, listaLomuto.length-1);
-            tempo = (System.nanoTime() - tempo)/100000;
-            t = tempo + "";
-            t = t.replace(".",",");
-            System.out.print("\tLOMUTO\t"+trocas + "\t" + t);
-        }
-        if (type==0 || type==2) {
             trocas = 0;        
             //("HOARE");
             tempo = System.nanoTime();
@@ -123,7 +113,19 @@ class Quicksort {
             t = tempo + "";
             t = t.replace(".",",");
             System.out.print("\tHOARE\t"+trocas + "\t" + t);
+            Thread.sleep(200);
         }
+        if (type==0 || type==2) {
+            //("LOMUTO");
+            tempo = System.nanoTime();
+            listaLomuto = quickSortLomuto(listaLomuto, 0, listaLomuto.length-1);
+            tempo = (System.nanoTime() - tempo)/100000;
+            t = tempo + "";
+            t = t.replace(".",",");
+            System.out.print("\tLOMUTO\t"+trocas + "\t" + t);
+            Thread.sleep(200);
+        }
+        Thread.sleep(600);
         System.out.println();
     }
 
