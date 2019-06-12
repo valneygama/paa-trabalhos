@@ -78,9 +78,7 @@ class Quicksort {
     static void execucaoParaArray(int size) {
         System.out.print("ALEATORIOS\t"+size);
         int[] arr = generateArray(size);
-        try {
-            execucao(arr, 0);
-        } catch (Exception ex) {}
+        execucao(arr, 0);
     }
     // Executa para zeros
     static void execucaoParaZeros(int size) {
@@ -97,7 +95,7 @@ class Quicksort {
 
     // Baseado no Array de entrada, chama a execução e caclula os tempos 
     // e trocas (variavel global) de cada quicksort.
-    static void execucao(int[] original, int type) throws Exception {
+    static void execucao(int[] original, int type) {
         double tempo;
         int[] listaHoare = Arrays.copyOf(original, original.length);
         int[] listaLomuto = Arrays.copyOf(original, original.length);
@@ -113,7 +111,7 @@ class Quicksort {
             t = tempo + "";
             t = t.replace(".",",");
             System.out.print("\tHOARE\t"+trocas + "\t" + t);
-            Thread.sleep(200);
+            try {Thread.sleep(200);} catch (Exception e){}
         }
         if (type==0 || type==2) {
             //("LOMUTO");
@@ -123,9 +121,9 @@ class Quicksort {
             t = tempo + "";
             t = t.replace(".",",");
             System.out.print("\tLOMUTO\t"+trocas + "\t" + t);
-            Thread.sleep(200);
+            try {Thread.sleep(200);} catch (Exception e){}
         }
-        Thread.sleep(600);
+        try {Thread.sleep(600);} catch (Exception e){}
         System.out.println();
     }
 
