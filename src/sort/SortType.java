@@ -10,5 +10,5 @@ package sort;
  * @author valney
  */
 public enum SortType {
-    BUCKETSORT, INSERTIONSORT, HEAPSORT;
+    BUCKETSORT, INSERTIONSORT, HEAPSORT, QUICKSORT;
 }

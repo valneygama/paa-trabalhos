@@ -15,7 +15,7 @@ public class Heapsort  {
      * @param vetor Vetor que será ordenado
      * Aplica a ordenação HeapSorte no vetor
      */
-    public static int[] sort(int[] vetor) {
+    public static Integer[] sort(Integer[] vetor) {
 
         for (int i =  vetor.length/ 2 - 1; i >= 0; i--){
             heapify(vetor, vetor.length, i);
@@ -33,7 +33,7 @@ public class Heapsort  {
         return vetor;
     }
     
-    private static void heapify(int arr[], int arrayLength, int rootElementIndex) {
+    private static void heapify(Integer arr[], Integer arrayLength, Integer rootElementIndex) {
         
         int leftIndex = 2*rootElementIndex + 1;  
         int rightIndex = 2*rootElementIndex + 2;  

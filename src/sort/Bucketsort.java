@@ -7,8 +7,8 @@ package sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -16,104 +16,67 @@ import java.util.List;
  */
 public class Bucketsort {
     
-    public static void sort(int[] vetor, SortType type) {
-	long maiorValor = Integer.MIN_VALUE;
-        long tamanhoVetor = vetor.length;
-        long numBaldes = tamanhoVetor;
-        
-        for (int i: vetor)
-            if (i > maiorValor) 
-                maiorValor = i;
-        
-        maiorValor = maiorValor + 1;
 
-	LinkedList[] B = new LinkedList[(int) numBaldes];
-
-	for (int i = 0; i < numBaldes; i++)
-            B[i] = new LinkedList<Integer>();
-
-        // distribute data into buckets: O(n)
-        for (int i = 0; i < tamanhoVetor; i++) {
-            int currentBucket = (int) Math.floor( vetor[i] * numBaldes / maiorValor );
-            B[currentBucket].add(vetor[i]);
+    public static void sort(Integer a[], SortType type) {
+        if (a.length<2) return;
+        if ((a.length==2)&&(a[0]<a[1])) return;
+        int numBuckets = (int) Math.ceil( Math.sqrt(a.length) ); // ~ 30 items/bucket
+        if (numBuckets<2) numBuckets = 2;
+        Integer listMin = a[0], listMax = a[0];
+        for (int i = 0; i < a.length; i++) {
+            if (a[i]>listMax) listMax = a[i];
+            if (a[i]<listMin) listMin = a[i];
         }
-        /*
-	for (int i = 0; i < vetor.length; i++) {
-            int j = numBaldes-1;
-            
-            while (true) {
-		if (j<0) break;
-		if (vetor[i] >= (j*5)) {
-		    B[j].add(vetor[i]);
-                    break;
-                }
-                j--;
-            }
-	}*/
-
-	//Ordena e atualiza o vetor:
-	int indice = 0;
-	for (int i = 0; i < numBaldes; i++){
-            int[] aux = new int[B[i].size()];
-            //Coloca cada balde num vetor:
-            for (int j = 0; j < aux.length; j++) {
-                aux[j] = (Integer)B[i].get(j);
-            }
-            if (type != null)
-                /// insertionSort(aux); //algoritmo escolhido para ordenação.
+        if (listMax==listMin) return;
+        
+        // initialize the buckets
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<ArrayList<Integer>>(numBuckets);
+        for (int i = 0; i < numBuckets; i++) {
+            buckets.add(new ArrayList<Integer>());
+        }
+        
+        // go through the list and put each item in the correct bucket
+        for (int i = 0; i < a.length; i++) {
+            int bucket = bucketForNumber(a[i], listMin, listMax, numBuckets);
+            buckets.get(bucket).add(a[i]);
+        }
+        
+        // sort each of the buckets using the sort i want
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        int listIndex = 0;
+        for (ArrayList<Integer> bucket : buckets) {
+            int indexbucket = 0;
+            Integer[] bucketArray = new Integer[bucket.size()];
+            for (Integer item: bucket) bucketArray[indexbucket++] = item;
+            if (bucket.size() > 1) {
                 switch (type) {
-                    case INSERTIONSORT: Insertionsort.sort(aux);
-                        break;
-                    case HEAPSORT: Heapsort.sort(aux);
+                    case INSERTIONSORT: Insertionsort.sort(bucketArray); break;
+                    case HEAPSORT: Heapsort.sort(bucketArray); break;
+                    case BUCKETSORT: Bucketsort.sort(bucketArray, SortType.BUCKETSORT); break;
+                    case QUICKSORT: Quicksort.sort(bucketArray);
                         break;
                 }
-            
-            // Devolve os valores ao vetor de entrada:
-            for (int j = 0; j < aux.length; j++, indice++)
-                vetor[indice] = aux[j];
-
-	}
+            }
+            for (int j = 0; j < bucketArray.length; j++) {
+                    a[listIndex++] = bucketArray[j];
+            }
+        }
+        listIndex=0;
     }
     
-    
-    /*public static void sort(int[] input) {
-        
-        if (input.length > 1) {
-            int maior = Integer.MIN_VALUE;
-            ArrayList buckets = new ArrayList<List>();
-
-            // create and initialize buckets to ArrayList: O(n)
-            for (int i: input) {
-                if (i > maior) maior = i;
-                buckets.add(new ArrayList());
-            }
-            maior = maior + 1;
-
-            // distribute data into buckets: O(n)
-            for (int i : input) {
-                int currentBucket = (int) Math.floor( i * input.length / maior );
-                ArrayList lista = (ArrayList) buckets.get(currentBucket);
-                lista.add(i);
-            }
-
-            // sort each bucket O(n)
-            for (int i = 0; i < buckets.size(); i++) {
-                ArrayList lista = (ArrayList) buckets.get(i);
-                //Collections.sort(bucket);
-                //System.out.println("Bucket "+(i+1)+": " + lista.toString());
-            }
-            
-            // combine
-            int j = 0;
-            for (int i = 0; i < buckets.size(); i++) {
-                ArrayList lista = (ArrayList) buckets.get(i);
-                for (Object p : lista) {
-                    int valor = (int) p;
-                    input[j++] = valor;
-                }
-            }   
+    private static int bucketForNumber(Integer number, Integer listMin, Integer listMax, Integer numBuckets) {
+        Long difference = (long)listMax - listMin;
+        if (Objects.equals(number, listMin)) return 0;
+        if (Objects.equals(number, listMax)) return numBuckets-1;
+        int increment = (int)Math.ceil(difference / numBuckets);
+        increment = increment <= 0 ? 1 : increment;
+        int bucket = number / increment;
+        if (bucket >= numBuckets) {
+                bucket = numBuckets - 1;
+        } else if (bucket < 0) {
+                bucket = 0;
         }
-
-    }*/
+        return bucket;
+    }
     
 }

@@ -11,7 +11,7 @@ package sort;
  */
 public class Insertionsort {
     
-    public static void sort(int[] vetor) {
+    public static void sort(Integer[] vetor) {
         if (vetor.length > 1) {
             int i, key, j;
 
