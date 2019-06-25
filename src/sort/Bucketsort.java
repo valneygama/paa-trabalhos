@@ -52,7 +52,7 @@ public class Bucketsort {
                 switch (type) {
                     case INSERTIONSORT: Insertionsort.sort(bucketArray); break;
                     case HEAPSORT: Heapsort.sort(bucketArray); break;
-                    case BUCKETSORT: Bucketsort.sort(bucketArray, SortType.BUCKETSORT); break;
+                    case MERGESORT: MergeSort.sort(bucketArray); break;
                     case QUICKSORT: Quicksort.sort(bucketArray);
                         break;
                 }

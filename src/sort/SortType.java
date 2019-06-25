@@ -10,7 +10,7 @@ package sort;
  * @author valney
  */
 public enum SortType {
-    BUCKETSORT(1), INSERTIONSORT(2), HEAPSORT(3), QUICKSORT(4);
+    MERGESORT(1), INSERTIONSORT(2), HEAPSORT(3), QUICKSORT(4);
     
     private final int valor;
     

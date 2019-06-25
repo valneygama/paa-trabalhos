@@ -31,8 +31,7 @@ public class BucketsortMain {
         java.util.ArrayList<Integer> order = new java.util.ArrayList<Integer>();
         while (order.size() < 4) {
             int value = rand.nextInt(5);
-            if (value>0 && !order.contains(value) ) order.add(value);
-            
+            if (value>0 && !order.contains(value) ) order.add(value);   
         }
         
         // para cada tamanho a ser testado
