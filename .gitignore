@@ -1,7 +1,5 @@
-
 # Project specific excludes
 #
-
 tomcat
 
 #
@@ -54,3 +52,7 @@ nb-configuration.xml
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+
+
+.vscode
+
